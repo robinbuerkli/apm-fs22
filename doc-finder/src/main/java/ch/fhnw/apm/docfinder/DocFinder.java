@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
@@ -17,6 +20,7 @@ public class DocFinder {
     private Path rootDir;
 
     private int maxDepth = Integer.MAX_VALUE;
+    private final int MAX_THREADS = 10;
     private long sizeLimit = 1_000_000_000; // 1 GB
     private boolean ignoreCase = true;
 
@@ -26,13 +30,25 @@ public class DocFinder {
 
     public List<Result> findDocs(String searchText) throws IOException {
         var allDocs = collectDocs();
+        var executor = Executors.newFixedThreadPool(MAX_THREADS);
 
-        var results = new ArrayList<Result>();
+        var results = new CopyOnWriteArrayList<Result>();
         for (var doc : allDocs) {
-            var res = findInDoc(searchText, doc);
-            if (res.totalHits() > 0) {
-                results.add(res);
-            }
+            executor.submit(() -> {
+                    var res = findInDoc(searchText, doc);
+                    if (res.totalHits() > 0) {
+                        results.add(res);
+                    }
+                    return null;
+            });
+
+        }
+
+        try {
+            executor.shutdown();
+            executor.awaitTermination(1, TimeUnit.HOURS);
+        } catch (InterruptedException e) {
+            System.out.println("interrupted");
         }
 
         results.sort(comparing(Result::getRelevance, reverseOrder()));

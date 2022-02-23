@@ -1,0 +1,108 @@
+30 rep. text: woman friend cat
+
+Average: 2500.7 ms
+Min: 2098.6 ms
+Max: 3045.1 ms
+
+---
+30 rep. text: woman
+
+Average: 2498.0 ms
+Min: 1919.5 ms
+Max: 2809.4 ms
+
+---
+30 rep. text: if
+
+Average: 2658.9 ms
+Min: 2126.9 ms
+Max: 3665.4 ms
+---
+10 rep. text: if
+
+Average: 2701.1 ms
+Min: 2611.0 ms
+Max: 3257.3 ms
+---
+60 rep. text: if
+
+Average: 2738.4 ms
+Min: 2158.7 ms
+Max: 3112.0 ms
+
+--> Rep & Anzahl Suchwörter haben so gut wie keinen Einfluss. Bei der Suche ist jeweils ein Kern voll ausgelastet.
+
+Durchschnittlicher Durchsatz (1 / Antwortzeit): 30 ms pro Buch
+
+--- Parallele Verarbeitung von Büchern ---
+30 rep, text: if, 2 threads
+
+Average: 1064.2 ms
+Min: 1000.4 ms
+Max: 1618.1 ms
+
+30 rep, text: if, 3 threads
+
+Average: 777.1 ms
+Min: 700.6 ms
+Max: 1266.3 ms
+
+30 rep, text: if, 4 threads
+
+Average: 671.7 ms
+Min: 576.3 ms
+Max: 1253.8 ms
+
+30 rep, text: if, 5 threads
+
+Average: 635.1 ms
+Min: 557.7 ms
+Max: 1234.1 ms
+
+30 rep, text: if, 6 threads
+
+Average: 608.9 ms
+Min: 532.6 ms
+Max: 1230.8 ms
+
+30 rep, text: if, 7 threads
+
+Average: 618.4 ms
+Min: 547.9 ms
+Max: 1354.0 ms
+
+30 rep, text: if, 8 threads
+
+Average: 501.8 ms
+Min: 58.3 ms
+Max: 1890.8 ms
+
+30 rep, text: if, 9 threads
+
+Average: 595.0 ms
+Min: 546.7 ms
+Max: 1276.7 ms
+
+30 rep, text: if, 10 threads
+
+Average: 550.4 ms
+Min: 488.7 ms
+Max: 1367.0 ms
+
+30 reps, text: if, 16 threads
+
+Average: 672.9 ms
+Min: 611.7 ms
+Max: 1432.1 ms
+---
+30 rep, text: women friend cat, 8 threads
+
+Average: 620.2 ms
+Min: 559.4 ms
+Max: 1429.8 ms
+---
+30 rep, text: women friend cat, 16 threads
+
+Average: 592.9 ms
+Min: 524.4 ms
+Max: 1571.6 ms
