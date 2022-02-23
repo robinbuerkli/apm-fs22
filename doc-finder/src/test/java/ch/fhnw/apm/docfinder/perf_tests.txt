@@ -106,3 +106,5 @@ Max: 1429.8 ms
 Average: 592.9 ms
 Min: 524.4 ms
 Max: 1571.6 ms
+
+Speedup-Diagramm: https://docs.google.com/spreadsheets/d/1hG36NqHMrAnIZdzuTselXZRFZOLQZ_MD_k0SM0qGi4w/edit?usp=sharing
