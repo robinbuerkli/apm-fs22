@@ -28,6 +28,7 @@ public class DocFinder {
 
     public DocFinder(Path rootDir) {
         this(rootDir, Runtime.getRuntime().availableProcessors());
+        //this(rootDir, 16);
     }
 
     public DocFinder(Path rootDir, int parallelism) {
@@ -41,13 +42,14 @@ public class DocFinder {
 
     public List<Result> findDocs(String searchText) throws IOException {
         var allDocs = collectDocs();
+        final String sT = searchText.toLowerCase(Locale.ROOT);
 
         var results = synchronizedList(new ArrayList<Result>());
 
         var tasks = new ArrayList<Callable<Void>>();
         for (var doc : allDocs) {
             tasks.add(() -> {
-                var res = findInDoc(searchText, doc);
+                var res = findInDoc(sT, doc);
                 if (res.totalHits() > 0) {
                     results.add(res);
                 }
@@ -86,12 +88,7 @@ public class DocFinder {
         }
 
         // normalize text: collapse whitespace and convert to lowercase
-        var collapsed = text.replaceAll("\\p{javaWhitespace}+", " ");
-        var normalized = collapsed;
-        if (ignoreCase) {
-            normalized = collapsed.toLowerCase(Locale.ROOT);
-            searchText = searchText.toLowerCase(Locale.ROOT);
-        }
+        var normalized = text.replaceAll("\\s+", " ");
 
         var searchTerms = parseSearchText(searchText);
         var searchHits = findInText(searchTerms, normalized);
@@ -105,8 +102,8 @@ public class DocFinder {
         }
 
         var parts = searchText
-                .replaceFirst("^\\p{javaWhitespace}", "") // prevent leading empty part
-                .split("\\p{javaWhitespace}+");
+                .replaceFirst("^\\s+", "") // prevent leading empty part
+                .split("\\s");
         return Stream.of(parts)
                 .distinct() // eliminate duplicates
                 .toList();
